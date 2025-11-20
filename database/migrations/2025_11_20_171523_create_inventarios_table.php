@@ -15,7 +15,15 @@ class CreateInventariosTable extends Migration
     {
         Schema::create('inventarios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_bodega')->constrained('bodegas');
+            $table->foreignId('id_producto')->constrained('productos');
+            $table->integer('cantidad');
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['id_bodega', 'id_producto']);
         });
     }
 
