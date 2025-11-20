@@ -62,3 +62,5 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# inventory-system
+Inventory management system built with Laravel 8.  Manages products, warehouses, stock transfers and history.
