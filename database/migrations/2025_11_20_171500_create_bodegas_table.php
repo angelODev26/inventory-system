@@ -6,24 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateBodegasTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('bodegas', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 30);
+            $table->foreignId('id_responsable')->constrained('users');
+            $table->boolean('estado')->default(true);
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('bodegas');
