@@ -14,7 +14,7 @@ Sistema de gestión de inventarios construido con Laravel.
 1. Clona el repositorio:
 
 ```bash
-git clone <repo-url> inventory-system
+git clone <https://github.com/angelODev26/inventory-system.git> inventory-system
 cd inventory-system
 ```
 
@@ -31,7 +31,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-4. Configura `.env` con tus datos de base de datos y otros valores (DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD). Opcionalmente ajusta `APP_URL`.
+4. Configura `.env` con tus datos de base de datos y otros valores. Opcionalmente ajusta `APP_URL`.
 
 5. Ejecuta migraciones y seeders (si deseas datos de prueba):
 
@@ -40,14 +40,7 @@ php artisan migrate
 php artisan db:seed
 ```
 
-6. (Opcional) Compila assets front-end:
-
-```bash
-npm install
-npm run dev
-```
-
-7. Asegura permisos y crea el enlace de almacenamiento si es necesario:
+6. Asegura permisos y crea el enlace de almacenamiento si es necesario:
 
 ```bash
 php artisan storage:link
@@ -55,7 +48,7 @@ chown -R $USER:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 ```
 
-8. Levanta el servidor de desarrollo:
+7. Levanta el servidor de desarrollo:
 
 ```bash
 php artisan serve
@@ -114,6 +107,3 @@ Notas:
 - Archivo YAML generado (si activado): `storage/api-docs/api-docs.yaml`
 
 ---
-
-Si quieres, puedo añadir en este README ejemplos de peticiones (curl) para los endpoints más usados, o generar un archivo `docs/` con ejemplos listos para Postman.
-
