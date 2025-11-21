@@ -5,7 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *     schema="Producto",
+ *     type="object",
+ *     title="Producto",
+ *     @OA\Property(property="id", type="integer", format="int64"),
+ *     @OA\Property(property="nombre", type="string"),
+ *     @OA\Property(property="descripcion", type="string", nullable=true),
+ *     @OA\Property(property="estado", type="boolean"),
+ *     @OA\Property(property="created_by", type="integer"),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time")
+ * )
+ */
 class Producto extends Model
 {
     use HasFactory, SoftDeletes;

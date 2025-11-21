@@ -1,0 +1,1083 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Inventory System API",
+        "description": "Documentación de la API del sistema de inventarios",
+        "contact": {
+            "email": "dev@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/api/bodegas": {
+            "get": {
+                "tags": [
+                    "Bodegas"
+                ],
+                "summary": "Obtener listado de todas las bodegas",
+                "description": "Retorna todas las bodegas con su responsable, ordenadas por nombre",
+                "operationId": "d9fbea0fa476c4bf29c890a2e246944e",
+                "responses": {
+                    "200": {
+                        "description": "Listado de bodegas exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Bodega Principal"
+                                                    },
+                                                    "id_responsable": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "estado": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "created_by": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "responsable": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Responsable Bodega"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "bodega1@inventory.com"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bodegas listadas exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al listar bodegas: Mensaje de error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Bodegas"
+                ],
+                "summary": "Crear una nueva bodega",
+                "description": "Crea una nueva bodega en el sistema",
+                "operationId": "5847d772da639981faf9de009bb02961",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "id_responsable"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "description": "Nombre de la bodega (máximo 30 caracteres)",
+                                        "type": "string",
+                                        "maxLength": 30,
+                                        "example": "Bodega Norte"
+                                    },
+                                    "id_responsable": {
+                                        "description": "ID del usuario responsable (debe existir en la tabla users)",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "created_by": {
+                                        "description": "ID del usuario que crea el registro (default: 1)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "estado": {
+                                        "description": "Estado de la bodega (default: 1 = activo)",
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Bodega creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 8
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Bodega Norte"
+                                                },
+                                                "id_responsable": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "estado": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "created_by": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "responsable": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Responsable Bodega"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "bodega1@inventory.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "creador": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Admin Principal"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "admin@inventory.com"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bodega creada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo nombre es obligatorio."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al crear bodega: Mensaje de error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/inventario": {
+            "post": {
+                "tags": [
+                    "Inventario"
+                ],
+                "summary": "Insertar o actualizar registro en inventarios",
+                "description": "Agrega cantidad a un producto en una bodega específica. Si ya existe el registro, suma la cantidad.",
+                "operationId": "4bdb1deb011d85be4aeb4a74c1fddb5c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_producto",
+                                    "id_bodega",
+                                    "cantidad"
+                                ],
+                                "properties": {
+                                    "id_producto": {
+                                        "description": "ID del producto (debe existir)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_bodega": {
+                                        "description": "ID de la bodega (debe existir)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cantidad": {
+                                        "description": "Cantidad a agregar (mínimo 0)",
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "created_by": {
+                                        "description": "ID del usuario que realiza la operación",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Inventario creado o actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "id_bodega": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "id_producto": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "cantidad": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "created_by": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "bodega": {
+                                                    "type": "object"
+                                                },
+                                                "producto": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Inventario actualizado. Cantidad anterior: 5, Nueva cantidad: 15"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error de validación"
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "id_producto": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo id producto es obligatorio."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al procesar inventario: Mensaje de error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/productos": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Listar productos",
+                "description": "Listar todos los productos ordenados descendente por Total\nTotal = Suma de cantidades en inventarios",
+                "operationId": "70a301af8ea04ce2f2596a58758632cd",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Producto"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto con inventario inicial",
+                "description": "Crear un producto y asignar cantidad inicial en inventario",
+                "operationId": "4ff8851cb6bfe92aa226cdc804917ff0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "maxLength": 300
+                                    },
+                                    "estado": {
+                                        "type": "boolean"
+                                    },
+                                    "created_by": {
+                                        "type": "integer"
+                                    },
+                                    "id_bodega": {
+                                        "type": "integer"
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "producto": {
+                                                    "$ref": "#/components/schemas/Producto"
+                                                },
+                                                "inventario_inicial": {
+                                                    "$ref": "#/components/schemas/Inventario"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validación fallida"
+                    },
+                    "500": {
+                        "description": "Error interno"
+                    }
+                }
+            }
+        },
+        "/api/traslados": {
+            "post": {
+                "tags": [
+                    "Traslados"
+                ],
+                "summary": "Trasladar producto entre bodegas",
+                "description": "Realiza el traslado de un producto de una bodega origen a una bodega destino, actualizando los inventarios y registrando en el historial",
+                "operationId": "33993ebd61e680839d517ce0c73eef95",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_producto",
+                                    "id_bodega_origen",
+                                    "id_bodega_destino",
+                                    "cantidad"
+                                ],
+                                "properties": {
+                                    "id_producto": {
+                                        "description": "ID del producto a trasladar",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_bodega_origen": {
+                                        "description": "ID de la bodega de origen",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_bodega_destino": {
+                                        "description": "ID de la bodega de destino",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "cantidad": {
+                                        "description": "Cantidad a trasladar (mínimo 1)",
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "created_by": {
+                                        "description": "ID del usuario que realiza el traslado",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Traslado realizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "historial": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "cantidad": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "id_bodega_origen": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "id_bodega_destino": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "id_inventario": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_by": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time"
+                                                        },
+                                                        "bodega_origen": {
+                                                            "type": "object"
+                                                        },
+                                                        "bodega_destino": {
+                                                            "type": "object"
+                                                        },
+                                                        "inventario": {
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "inventario_origen_actualizado": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "id_bodega": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "id_producto": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "cantidad": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "inventario_destino_actualizado": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "id_bodega": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "id_producto": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "cantidad": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Traslado de 5 unidades realizado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación o reglas de negocio",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Error de validación"
+                                                },
+                                                "errors": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "La bodega origen y destino no pueden ser la misma"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "No existe inventario del producto en la bodega de origen"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Cantidad insuficiente. Disponible: 3, Solicitado: 5"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al realizar traslado: Mensaje de error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Bodega": {
+                "description": "Modelo de Bodega",
+                "properties": {
+                    "id": {
+                        "description": "ID de la bodega",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre de la bodega",
+                        "type": "string",
+                        "maxLength": 30,
+                        "example": "Bodega Principal"
+                    },
+                    "id_responsable": {
+                        "description": "ID del usuario responsable",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "estado": {
+                        "description": "Estado de la bodega (1=activa, 0=inactiva)",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_by": {
+                        "description": "ID del usuario que creó la bodega",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "updated_by": {
+                        "description": "ID del usuario que actualizó la bodega",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Fecha de actualización",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "description": "Fecha de eliminación (soft delete)",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "responsable": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "creador": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "inventarios": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Inventario"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Historial": {
+                "description": "Modelo de Historial de Traslados",
+                "properties": {
+                    "id": {
+                        "description": "ID del registro de historial",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "cantidad": {
+                        "description": "Cantidad trasladada",
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "id_bodega_origen": {
+                        "description": "ID de la bodega de origen",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "id_bodega_destino": {
+                        "description": "ID de la bodega de destino",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "id_inventario": {
+                        "description": "ID del inventario relacionado",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_by": {
+                        "description": "ID del usuario que creó el registro",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "updated_by": {
+                        "description": "ID del usuario que actualizó el registro",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "description": "Fecha de creación",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Fecha de actualización",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "description": "Fecha de eliminación (soft delete)",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "bodega_origen": {
+                        "$ref": "#/components/schemas/Bodega"
+                    },
+                    "bodega_destino": {
+                        "$ref": "#/components/schemas/Bodega"
+                    },
+                    "inventario": {
+                        "$ref": "#/components/schemas/Inventario"
+                    },
+                    "creador": {
+                        "$ref": "#/components/schemas/User"
+                    }
+                },
+                "type": "object"
+            },
+            "Inventario": {
+                "title": "Inventario",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "id_bodega": {
+                        "type": "integer"
+                    },
+                    "id_producto": {
+                        "type": "integer"
+                    },
+                    "cantidad": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "created_by": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Producto": {
+                "title": "Producto",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "descripcion": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "estado": {
+                        "type": "boolean"
+                    },
+                    "created_by": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "description": "Modelo de Usuario",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin Principal"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "admin@inventory.com"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Bodegas",
+            "description": "Operaciones de gestión de bodegas"
+        },
+        {
+            "name": "Inventario",
+            "description": "Operaciones de gestión de inventarios"
+        },
+        {
+            "name": "Productos",
+            "description": "Operaciones relacionadas con productos"
+        },
+        {
+            "name": "Traslados",
+            "description": "Operaciones de traslado de productos entre bodegas"
+        }
+    ]
+}

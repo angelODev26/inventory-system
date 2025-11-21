@@ -8,15 +8,82 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @OA\Info(
+ *     title="Inventory System API",
+ *     version="1.0.0",
+ *     description="API para gestión de inventarios"
+ * )
+ *
+ * @OA\Server(
+ *     url="http://localhost:8000/api",
+ *     description="Servidor Local"
+ * )
+ */
+
+/**
+ * @OA\Tag(
+ *     name="Inventario",
+ *     description="Operaciones de gestión de inventarios"
+ * )
+ */
 class InventarioController extends Controller
 {
     /**
-     * Insertar o actualizar registro en inventarios
-     *
-     * @bodyParam id_producto integer required ID del producto (debe existir)
-     * @bodyParam id_bodega integer required ID de la bodega (debe existir)
-     * @bodyParam cantidad integer required Cantidad a agregar
-     * @bodyParam created_by integer optional ID del usuario que realiza la operación
+     * @OA\Post(
+     *     path="/api/inventario",
+     *     summary="Insertar o actualizar registro en inventarios",
+     *     description="Agrega cantidad a un producto en una bodega específica. Si ya existe el registro, suma la cantidad.",
+     *     tags={"Inventario"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"id_producto","id_bodega","cantidad"},
+     *             @OA\Property(property="id_producto", type="integer", example=1, description="ID del producto (debe existir)"),
+     *             @OA\Property(property="id_bodega", type="integer", example=1, description="ID de la bodega (debe existir)"),
+     *             @OA\Property(property="cantidad", type="integer", example=10, description="Cantidad a agregar (mínimo 0)"),
+     *             @OA\Property(property="created_by", type="integer", example=1, description="ID del usuario que realiza la operación")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Inventario creado o actualizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="id_bodega", type="integer", example=1),
+     *                 @OA\Property(property="id_producto", type="integer", example=1),
+     *                 @OA\Property(property="cantidad", type="integer", example=15),
+     *                 @OA\Property(property="created_by", type="integer", example=1),
+     *                 @OA\Property(property="bodega", type="object"),
+     *                 @OA\Property(property="producto", type="object")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Inventario actualizado. Cantidad anterior: 5, Nueva cantidad: 15")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Error de validación"),
+     *             @OA\Property(property="errors", type="object",
+     *                 @OA\Property(property="id_producto", type="array",
+     *                     @OA\Items(type="string", example="El campo id producto es obligatorio.")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Error al procesar inventario: Mensaje de error")
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request)
     {

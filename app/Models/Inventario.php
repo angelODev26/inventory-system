@@ -5,7 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *     schema="Inventario",
+ *     type="object",
+ *     title="Inventario",
+ *     @OA\Property(property="id", type="integer", format="int64"),
+ *     @OA\Property(property="id_bodega", type="integer"),
+ *     @OA\Property(property="id_producto", type="integer"),
+ *     @OA\Property(property="cantidad", type="integer", format="int32"),
+ *     @OA\Property(property="created_by", type="integer"),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time")
+ * )
+ */
 class Inventario extends Model
 {
     use HasFactory, SoftDeletes;

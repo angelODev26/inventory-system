@@ -9,16 +9,100 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @OA\Tag(
+ *     name="Traslados",
+ *     description="Operaciones de traslado de productos entre bodegas"
+ * )
+ */
 class TrasladoController extends Controller
 {
     /**
-     * Trasladar producto entre bodegas
-     *
-     * @bodyParam id_producto integer required ID del producto a trasladar
-     * @bodyParam id_bodega_origen integer required ID de la bodega de origen
-     * @bodyParam id_bodega_destino integer required ID de la bodega de destino
-     * @bodyParam cantidad integer required Cantidad a trasladar
-     * @bodyParam created_by integer optional ID del usuario que realiza el traslado
+     * @OA\Post(
+     *     path="/api/traslados",
+     *     summary="Trasladar producto entre bodegas",
+     *     description="Realiza el traslado de un producto de una bodega origen a una bodega destino, actualizando los inventarios y registrando en el historial",
+     *     tags={"Traslados"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"id_producto","id_bodega_origen","id_bodega_destino","cantidad"},
+     *             @OA\Property(property="id_producto", type="integer", example=1, description="ID del producto a trasladar"),
+     *             @OA\Property(property="id_bodega_origen", type="integer", example=1, description="ID de la bodega de origen"),
+     *             @OA\Property(property="id_bodega_destino", type="integer", example=2, description="ID de la bodega de destino"),
+     *             @OA\Property(property="cantidad", type="integer", example=5, description="Cantidad a trasladar (mínimo 1)"),
+     *             @OA\Property(property="created_by", type="integer", example=1, description="ID del usuario que realiza el traslado")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Traslado realizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="historial", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="cantidad", type="integer", example=5),
+     *                     @OA\Property(property="id_bodega_origen", type="integer", example=1),
+     *                     @OA\Property(property="id_bodega_destino", type="integer", example=2),
+     *                     @OA\Property(property="id_inventario", type="integer", example=1),
+     *                     @OA\Property(property="created_by", type="integer", example=1),
+     *                     @OA\Property(property="created_at", type="string", format="date-time"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                     @OA\Property(property="bodega_origen", type="object"),
+     *                     @OA\Property(property="bodega_destino", type="object"),
+     *                     @OA\Property(property="inventario", type="object")
+     *                 ),
+     *                 @OA\Property(property="inventario_origen_actualizado", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="id_bodega", type="integer", example=1),
+     *                     @OA\Property(property="id_producto", type="integer", example=1),
+     *                     @OA\Property(property="cantidad", type="integer", example=5)
+     *                 ),
+     *                 @OA\Property(property="inventario_destino_actualizado", type="object",
+     *                     @OA\Property(property="id", type="integer", example=2),
+     *                     @OA\Property(property="id_bodega", type="integer", example=2),
+     *                     @OA\Property(property="id_producto", type="integer", example=1),
+     *                     @OA\Property(property="cantidad", type="integer", example=10)
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Traslado de 5 unidades realizado exitosamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación o reglas de negocio",
+     *         @OA\JsonContent(
+     *             oneOf={
+     *                 @OA\Schema(
+     *                     @OA\Property(property="success", type="boolean", example=false),
+     *                     @OA\Property(property="message", type="string", example="Error de validación"),
+     *                     @OA\Property(property="errors", type="object")
+     *                 ),
+     *                 @OA\Schema(
+     *                     @OA\Property(property="success", type="boolean", example=false),
+     *                     @OA\Property(property="message", type="string", example="La bodega origen y destino no pueden ser la misma")
+     *                 ),
+     *                 @OA\Schema(
+     *                     @OA\Property(property="success", type="boolean", example=false),
+     *                     @OA\Property(property="message", type="string", example="No existe inventario del producto en la bodega de origen")
+     *                 ),
+     *                 @OA\Schema(
+     *                     @OA\Property(property="success", type="boolean", example=false),
+     *                     @OA\Property(property="message", type="string", example="Cantidad insuficiente. Disponible: 3, Solicitado: 5")
+     *                 )
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Error al realizar traslado: Mensaje de error")
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request)
     {
